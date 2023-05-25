@@ -45,10 +45,10 @@ const Product = ({
         >
           {category}
         </Typography>
-        <Typography variant="h5" component="div">
+        <Typography variant="h3" component="div">
           {name}
         </Typography>
-        <Typography sx={{ mb: "1.5rem" }} color={theme.palette.secondary[400]}>
+        <Typography sx={{ mb: "1.5rem", fontSize: 25 }} color={theme.palette.secondary[400]}>
           MAC: {price}
         </Typography>
         {/* <Rating value={rating} readOnly />*/}
@@ -99,6 +99,7 @@ const Products = () => {
     return jsonData;
   }
   const [gateways, setGateways] = useState([]);
+  const [query, setQuery] = useState("");
   const onClick = () => {
     logJSONData()
   }
@@ -108,6 +109,14 @@ const Products = () => {
   return (
     <Box m="1.5rem 2.5rem">
       <Header title="PRODUCTS" subtitle="See your list of products." />
+      <TextField 
+        id="outlined-basic" 
+        label="Mac tủ gateway" 
+        variant="outlined" 
+        placeholder="Search..."
+        onChange={(e) => setQuery(e.target.value.toLowerCase())} 
+      />  
+      
 
       {data || !isLoading ? (
         <Box
@@ -121,7 +130,10 @@ const Products = () => {
             "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
           }}
         >
-          {gateways.map(
+          {gateways
+          .filter((asd) =>
+           asd.mac.toLowerCase().includes(query))
+           .map(
             ({
               _id,
               name,

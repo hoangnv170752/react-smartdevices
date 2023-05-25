@@ -10,6 +10,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import TextField from '@mui/material/TextField';
 
 const Customers = () => {
   const theme = useTheme();
@@ -23,6 +24,7 @@ const Customers = () => {
     return jsonData;
   }
   const [gateways, setGateways] = useState([]);
+  const [query, setQuery] = useState("");
   useEffect(() => {
     logJSONData();
   }, [])
@@ -30,7 +32,13 @@ const Customers = () => {
   return (
     <Box m="1.5rem 2.5rem">
       <Header title="FARMERS" subtitle="Danh sách farm đang thương mại" />
-
+      <TextField 
+        id="outlined-basic" 
+        label="ID của farm" 
+        variant="outlined" 
+        placeholder="Search..."
+        onChange={(e) => setQuery(e.target.value.toLowerCase())} 
+      />  
       <Box
         mt="40px"
         height="75vh"
@@ -72,7 +80,8 @@ const Customers = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {gateways.map((row) => (
+          {gateways.filter((asd) =>
+           asd._id.toLowerCase().includes(query)).map((row) => (
             <TableRow
               key={row.name}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
